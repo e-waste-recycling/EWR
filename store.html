@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر E-Waste Recycling - مكونات إلكترونية مستعملة</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        /* All CSS from index.html is copied here for consistency */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary-green: #2d7d32;
+            --secondary-green: #4caf50;
+            --light-green: #81c784;
+            --dark-gray: #103851;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --accent-orange: #103851;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation (Same as index.html) */
+        header {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: white;
+            position: sticky; /* Sticky header for store page */
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            background: var(--dark-gray);
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        
+        .header-top .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-contact {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .header-contact span i {
+            margin-left: 5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lang-switch button {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .lang-switch button:hover,
+        .lang-switch button.active {
+            background: white;
+            color: var(--dark-gray);
+        }
+
+        .main-header {
+            padding: 15px 0;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 36px;
+            color: var(--light-green);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        nav a.active-page::after,
+        nav a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--light-green);
+            transition: width 0.3s;
+        }
+
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Store Page Specific Styles */
+        .page-header {
+            background: var(--light-gray);
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        .page-header h1 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .breadcrumbs a {
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+        .breadcrumbs span {
+            color: var(--dark-gray);
+        }
+
+        .store-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            padding: 60px 0;
+        }
+
+        .store-filters {
+            background: var(--light-gray);
+            padding: 25px;
+            border-radius: 10px;
+            height: fit-content;
+        }
+        .filter-group {
+            margin-bottom: 30px;
+        }
+        .filter-group h3 {
+            font-size: 1.2rem;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-green);
+        }
+        .filter-group input[type="search"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .filter-group ul {
+            list-style: none;
+            padding: 0;
+        }
+        .filter-group ul li {
+            margin-bottom: 10px;
+        }
+        .filter-group ul a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            transition: color 0.3s;
+        }
+        .filter-group ul a:hover {
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        .store-products .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .toolbar select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Re-using product card styles from index.html */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            font-size: 4rem;
+        }
+
+        .product-info {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary-green);
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-orange);
+            margin-bottom: 15px;
+        }
+
+        .product-description {
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+            font-size: 14px;
+            flex-grow: 1;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid transparent;
+        }
+        .btn-primary {
+            background: var(--accent-orange);
+            color: white;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 50px;
+        }
+        .pagination a {
+            text-decoration: none;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            color: var(--primary-green);
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .pagination a.active, .pagination a:hover {
+            background-color: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        /* Footer (Same as index.html) */
+        footer {
+            background: var(--dark-gray);
+            color: #ccc;
+            padding: 60px 0 20px;
+            margin-top: 60px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-section h3 {
+            color: var(--light-green);
+            margin-bottom: 20px;
+        }
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+            transition: color 0.3s;
+        }
+        .footer-section a:hover {
+            color: var(--light-green);
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        .social-links a:hover {
+            background: var(--secondary-green);
+            transform: translateY(-3px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            color: #999;
+        }
+        .footer-bottom a {
+            color: var(--light-green);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .store-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .mobile-menu-button { display: block; }
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary-green);
+                flex-direction: column;
+                padding: 20px;
+            }
+            nav ul.active { display: flex; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="header-contact">
+                    <span><i class="fas fa-phone"></i> +213 555 123 456</span>
+                    <span><i class="fas fa-envelope"></i> info@ewaste-recycling.dz</span>
+                </div>
+                <div class="header-right">
+                    <div class="lang-switch">
+                        <button class="active">العربية</button>
+                        <button>English</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-header">
+            <div class="container">
+                <a href="index.html" class="logo" style="text-decoration: none; color: white;">
+                    <i class="fas fa-recycle"></i>
+                    <div>E-Waste Recycling</div>
+                </a>
+                
+                <nav>
+                    <ul id="navMenu">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="index.html#about">من نحن</a></li>
+                        <li><a href="index.html#services">خدماتنا</a></li>
+                        <li><a href="store.html" class="active-page">المتجر</a></li>
+                        <li><a href="index.html#sell">بيع أجهزتك</a></li>
+                        <li><a href="index.html#contact">تواصل معنا</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="mobile-menu-button" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>متجر المكونات الإلكترونية</h1>
+                <p class="breadcrumbs">
+                    <a href="index.html">الرئيسية</a> > <span>المتجر</span>
+                </p>
+            </div>
+        </section>
+
+        <div class="container store-layout">
+            <aside class="store-filters">
+                <div class="filter-group">
+                    <h3>بحث</h3>
+                    <input type="search" placeholder="ابحث عن منتج...">
+                </div>
+                <div class="filter-group">
+                    <h3>الفئات</h3>
+                    <ul>
+                        <li><a href="#">الكل</a></li>
+                        <li><a href="#">معالجات (CPU)</a></li>
+                        <li><a href="#">ذاكرة عشوائية (RAM)</a></li>
+                        <li><a href="#">أقراص تخزين (SSD/HDD)</a></li>
+                        <li><a href="#">شاشات</a></li>
+                        <li><a href="#">بطاريات</a></li>
+                        <li><a href="#">لوحات أم (Motherboards)</a></li>
+                    </ul>
+                </div>
+                <div class="filter-group">
+                    <h3>السعر</h3>
+                    <ul>
+                        <li><label><input type="radio" name="price" checked> الكل</label></li>
+                        <li><label><input type="radio" name="price"> أقل من 5,000 دج</label></li>
+                        <li><label><input type="radio" name="price"> 5,000 - 10,000 دج</label></li>
+                        <li><label><input type="radio" name="price"> أكثر من 10,000 دج</label></li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary" style="width:100%;">تطبيق الفلتر</button>
+            </aside>
+
+            <div class="store-products">
+                <div class="toolbar">
+                    <p>عرض 1-9 من 20 منتج</p>
+                    <select>
+                        <option>ترتيب حسب: الأحدث</option>
+                        <option>ترتيب حسب: السعر من الأقل للأعلى</option>
+                        <option>ترتيب حسب: السعر من الأعلى للأقل</option>
+                    </select>
+                </div>
+
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image"><i class="fas fa-memory"></i></div>
+                        <div class="product-info">
+                            <h3 class="product-title">ذاكرة RAM DDR4 8GB</h3>
+                            <div class="product-price">3,500 دج</div>
+                            <p class="product-description">ذاكرة سامسونج DDR4 بسرعة 2400MHz، مفحوصة ومضمونة.</p>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> أضف للسلة</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image"><i class="fas fa-hdd"></i></div>
+                        <div class="product-info">
+                            <h3 class="product-title">قرص تخزين SSD 256GB</h3>
+                            <div class="product-price">5,200 دج</div>
+                            <p class="product-description">قرص Kingston سريع بواجهة SATA III، حالة ممتازة.</p>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> أضف للسلة</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image"><i class="fas fa-microchip"></i></div>
+                        <div class="product-info">
+                            <h3 class="product-title">معالج Intel Core i5-7500</h3>
+                            <div class="product-price">9,800 دج</div>
+                            <p class="product-description">معالج رباعي النواة، جيل سابع، مناسب للترقيات المكتبية.</p>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> أضف للسلة</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image"><i class="fas fa-desktop"></i></div>
+                        <div class="product-info">
+                            <h3 class="product-title">شاشة Dell 24 بوصة Full HD</h3>
+                            <div class="product-price">12,000 دج</div>
+                            <p class="product-description">شاشة Ultrasharp بألوان دقيقة، مناسبة للتصميم والعمل.</p>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> أضف للسلة</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image"><i class="fas fa-battery-full"></i></div>
+                        <div class="product-info">
+                            <h3 class="product-title">بطارية لابتوب HP Pavilion</h3>
+                            <div class="product-price">4,500 دج</div>
+                            <p class="product-description">بطارية أصلية مستعملة بحالة جيدة، تدوم لأكثر من 3 ساعات.</p>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> أضف للسلة</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image"><i class="fas fa-fan"></i></div>
+                        <div class="product-info">
+                            <h3 class="product-title">مروحة تبريد CPU</h3>
+                            <div class="product-price">1,200 دج</div>
+                            <p class="product-description">مروحة تبريد قياسية لمعالجات إنتل، هادئة وفعالة.</p>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> أضف للسلة</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image"><i class="fas fa-memory"></i></div>
+                        <div class="product-info">
+                            <h3 class="product-title">ذاكرة RAM DDR3 4GB</h3>
+                            <div class="product-price">1,800 دج</div>
+                            <p class="product-description">ذاكرة لابتوب DDR3، مناسبة للأجهزة القديمة.</p>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> أضف للسلة</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image"><i class="fas fa-hdd"></i></div>
+                        <div class="product-info">
+                            <h3 class="product-title">قرص تخزين HDD 1TB</h3>
+                            <div class="product-price">4,000 دج</div>
+                            <p class="product-description">قرص Seagate Barracuda لتخزين الملفات الكبيرة.</p>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> أضف للسلة</a>
+                        </div>
+                    </div>
+                     <div class="product-card">
+                        <div class="product-image"><i class="fas fa-microchip"></i></div>
+                        <div class="product-info">
+                            <h3 class="product-title">معالج AMD Ryzen 3 3200G</h3>
+                            <div class="product-price">8,500 دج</div>
+                            <p class="product-description">معالج بمعالج رسوميات مدمج، مثالي للتجميعات الاقتصادية.</p>
+                            <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> أضف للسلة</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">&raquo;</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+       <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>E-Waste Recycling</h3>
+                    <p>شركة جزائرية مبتكرة في إعادة تدوير النفايات الإلكترونية، ملتزمون بمستقبل أخضر واقتصاد دائري.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="index.html#about">من نحن</a></li>
+                        <li><a href="store.html">المتجر</a></li>
+                        <li><a href="index.html#blog">المدونة</a></li>
+                        <li><a href="index.html#contact">تواصل معنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>معلومات الاتصال</h3>
+                    <p><i class="fas fa-map-marker-alt" style="margin-left: 10px;"></i>المسيلة ، الجزائر</p>
+                    <p><i class="fas fa-phone" style="margin-left: 10px;"></i>+213 555 123 456</p>
+                    <p><i class="fas fa-envelope" style="margin-left: 10px;"></i>info@ewaste-recycling.dz</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                 &copy; 2025 E-Waste Recycling. جميع الحقوق محفوظة. | <a href="#">سياسة الخصوصية</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // NOTE: The search, filter, and add-to-cart functionalities are for display purposes.
+        // Making them fully functional requires JavaScript logic to filter products
+        // and a backend system for cart management.
+    </script>
+</body>
+</html>
